@@ -54,9 +54,10 @@ class Super(nn.Module):
         self.convh2 = nn.Conv2d(self.hidden_channels, self.hidden_channels, kernel_size=3, padding=1, padding_mode = 'replicate')
         self.act = nn.LeakyReLU()
         self.vdsr = VDSR()
-
         self.blocks = nn.ModuleList()
-        for _ in range(int(self.scale_factor/2)):  
+        self.pow = np.log(self.scale_factor)/np.log(2)
+        
+        for _ in range(int(self.pow)):  
             layers_in_block = nn.ModuleList([ 
                 nn.Sequential(
                     nn.Conv2d(self.hidden_channels, self.hidden_channels, kernel_size=3, padding=1, padding_mode = 'replicate'),
